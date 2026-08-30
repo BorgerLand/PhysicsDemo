@@ -1,12 +1,25 @@
 {
+	"dependencies": {
+		"react": "*",
+		"react-dom": "*",
+		"three": "*",
+		"zustand": "*"
+	},
 	"devDependencies": {
+		"@eslint-react/eslint-plugin": "*",
 		"@eslint/js": "*",
 		"@types/node": "^24.0.0",
+		"@types/react": "*",
+		"@types/react-dom": "*",
+		"@types/three": "*",
 		"@vitejs/plugin-basic-ssl": "*",
+		"@vitejs/plugin-react": "*",
 		"@webgpu/types": "*",
 		"concurrently": "*",
 		"eslint-config-prettier": "*",
 		"eslint-plugin-prettier": "*",
+		"eslint-plugin-react-hooks": "*",
+		"eslint-plugin-react-refresh": "*",
 		"prettier": "*",
 		"tsx": "*",
 		"typescript": "*",

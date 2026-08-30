@@ -3,6 +3,7 @@ import * as path from "path";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import tsconfig from "./tsconfig.presentation.json" with { type: "json" };
 import checker from "vite-plugin-checker";
+import react from "@vitejs/plugin-react";
 
 const MULTITHREADING_HEADERS =
 	process.env.BORGER_SINGLETHREADED === "1"
@@ -15,7 +16,7 @@ const MULTITHREADING_HEADERS =
 //https://vite.dev/config/
 export default defineConfig({
 	publicDir: "assets",
-	plugins: [basicSsl(), checker({ typescript: { tsconfigPath: "tsconfig.presentation.json" } })],
+	plugins: [basicSsl(), checker({ typescript: { tsconfigPath: "tsconfig.presentation.json" } }), react()],
 	resolve: {
 		alias: Object.fromEntries(
 			Object.entries(tsconfig.compilerOptions.paths).map(([key, [value]]) => [
