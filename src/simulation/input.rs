@@ -1,16 +1,33 @@
 use borger::prelude::*;
+use glam::Vec2;
 use std::f32::consts::{PI, TAU};
 
 //a single client has multiple input states per simulation
 //tick due to vsync outpacing the simulation tick rate.
 //this function merges them down into one
-pub fn merge(_combined: &Input, _new: &Input) -> Input {
-	Input {}
+pub fn merge(combined: &Input, new: &Input) -> Input {
+	Input {
+		//camera persists between frames, so always take the newest
+		cam_yaw: new.cam_yaw,
+		cam_pitch: new.cam_pitch,
+
+		//take newest nipple/omnidir if it exists. if not, don't overwrite the old one.
+		//allows very short sub-1-tick nipple movements to go through
+		omnidir: if new.omnidir != Vec2::ZERO {
+			new.omnidir
+		} else {
+			combined.omnidir
+		},
+
+		jumping: combined.jumping || new.jumping,
+		start_physics_test: combined.start_physics_test || new.start_physics_test,
+		blow_nose: combined.blow_nose || new.blow_nose,
+	}
 }
 
 //given a suspicious, untrustworthy input state,
 //return a new sanitized version
-pub fn validate(_sus: &Input) -> Input {
+pub fn validate(sus: &Input) -> Input {
 	//be sure to pass all floating point (decimal) numbers
 	//through valid_fXX(). otherwise you have a security
 	//problem where an evil client can blow up the game.
@@ -24,7 +41,26 @@ pub fn validate(_sus: &Input) -> Input {
 	//eg. debounce or other timings between multiple
 	//input state objects is out of scope
 
-	Input {}
+	Input {
+		cam_yaw: wrap_angle(valid_f32(sus.cam_yaw)),
+		cam_pitch: valid_f32(sus.cam_pitch).clamp(-89.9_f32.to_radians(), 89.9_f32.to_radians()),
+		omnidir: {
+			let omnidir = Vec2::new(
+				valid_f32(sus.omnidir.x).clamp(-1., 1.),
+				valid_f32(sus.omnidir.y).clamp(-1., 1.),
+			);
+
+			if omnidir.length_squared() > 1.0 {
+				omnidir.normalize_or_zero()
+			} else {
+				omnidir
+			}
+		},
+
+		jumping: sus.jumping,
+		start_physics_test: sus.start_physics_test,
+		blow_nose: sus.blow_nose,
+	}
 }
 
 //the server needs to continue simulating even if it hasn't
@@ -40,20 +76,39 @@ pub fn validate(_sus: &Input) -> Input {
 //npc) are normally safe to predict false or else you risk
 //triggering some action twice
 #[server]
-pub fn server_predict_late(
-	_prv: &Input,
-	_state: &State,
-	_client_id: usize32,
-	_is_timed_out: bool,
-) -> Input {
-	Input {}
+pub fn server_predict_late(prv: &Input, _state: &State, _client_id: usize32, _is_timed_out: bool) -> Input {
+	Input {
+		//predict that camera hasn't moved
+		cam_yaw: prv.cam_yaw,
+		cam_pitch: prv.cam_pitch,
+
+		//predict that this client stopped attempting to move. otherwise
+		//they're at risk of walking off a cliff while they lag. a racing
+		//game may want to predict that the throttle is gradually let off
+		//rather than immediately stopped
+		omnidir: Vec2::default(),
+		jumping: false,
+		start_physics_test: false,
+		blow_nose: prv.blow_nose,
+	}
 }
 
 //the client needs to continue simulating even if the
 //presentation thread stuttered and missed a tick. the same
 //rules apply here as server_predict_late
-pub fn client_predict_late(_prv: &Input, _state: &State, _client_id: usize32) -> Input {
-	Input {}
+pub fn client_predict_late(prv: &Input, _state: &State, _client_id: usize32) -> Input {
+	Input {
+		//predict that camera hasn't moved
+		cam_yaw: prv.cam_yaw,
+		cam_pitch: prv.cam_pitch,
+
+		//predict that omnidir nipple is still held the same as last tick.
+		//otherwise there's risk of very short stutters/stalls in movement
+		omnidir: prv.omnidir,
+		jumping: prv.jumping,
+		start_physics_test: false,
+		blow_nose: prv.blow_nose,
+	}
 }
 
 ///Wrap angle in range [-PI, PI)

@@ -1,0 +1,35 @@
+use borger::prelude::*;
+use glam::Vec3;
+use rapier3d::prelude::Group;
+
+pub const GRAVITY: Vec3 = Vec3::new(0.0, -30.0, 0.0);
+pub const GROUP_CHARACTER: Group = Group::GROUP_1;
+pub const GROUP_PUSHABLE: Group = Group::GROUP_2;
+
+pub fn update(ctx: &mut GameContext<Immediate>) {
+	let mut start_physics_test = false;
+	for client in ctx.state.clients.values() {
+		if let Client::Owned(client) = client {
+			let input = &client.input.get().state;
+			if input.start_physics_test || input.blow_nose {
+				start_physics_test = true;
+				break;
+			}
+		}
+	}
+
+	if start_physics_test {
+		ctx.state.set_running_physics_test(true, &mut ctx.diff);
+		for (_, rb) in ctx.state.physics.rigid_bodies.iter_mut() {
+			rb.wake_up(true);
+		}
+	}
+
+	let gravity = if ctx.state.get_running_physics_test() {
+		GRAVITY
+	} else {
+		Vec3::ZERO
+	};
+
+	ctx.state.physics.step(gravity, &(), &());
+}
