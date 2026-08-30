@@ -2,6 +2,7 @@
 	"dependencies": {
 		"react": "*",
 		"react-dom": "*",
+		"three": "*",
 		"zustand": "*"
 	},
 	"devDependencies": {
