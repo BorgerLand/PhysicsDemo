@@ -5,7 +5,7 @@ import { eventDispatcher } from "@borger/event_dispatcher";
 codeGenerator()
 	.plugin(eventDispatcher)
 	.flatulate({
-		physics: { netVisibility: "untracked", type: "crate::physics::Physics" },
+		physics: { netVisibility: "untracked", type: "crate::plugins::physics::Physics" },
 		clients: {
 			netVisibility: "public",
 			presentation: "clone",
