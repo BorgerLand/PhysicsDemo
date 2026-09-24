@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.json",
+	"include": ["**/*.config.ts", "src/state.ts"],
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"types": ["node"],
+		"paths": {
+			"@borger/code_generator": ["./borger/code_generator/src"],
+			"@borger/code_generator/*": ["./borger/code_generator/src/*"]
+		}
+	}
+}

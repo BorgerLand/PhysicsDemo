@@ -1,10 +1,12 @@
 {
 	"dependencies": {
+		"@borger/event_dispatcher": "file:borger/plugins/event_dispatcher",
 		"react": "*",
 		"react-dom": "*",
 		"zustand": "*"
 	},
 	"devDependencies": {
+		"@borger/plugin_sdk": "file:borger/plugins/sdk/ts",
 		"@eslint-react/eslint-plugin": "*",
 		"@eslint/js": "*",
 		"@types/node": "^24.0.0",
