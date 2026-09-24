@@ -1,7 +1,7 @@
 {
 	"include": ["**/*.ts", "**/*.tsx"],
 	"compilerOptions": {
-		//combine lib+types+paths from tsconfig.presentation.json+borger/tsconfig.json
+		//combine lib+types+paths from tsconfig.presentation.json+tsconfig.node.json
 		//in order to make the ide's language server happy. when actually building, a
 		//stricter set of rules applies to separate dom vs. node types properly. this
 		//is a workaround for language server's (in)ability to look up which tsconfig
@@ -9,6 +9,7 @@
 		"lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
 		"types": ["node", "vite/client"],
 		"paths": {
+			"@borger/code_generator": ["./borger/code_generator/src"],
 			"@borger/code_generator/*": ["./borger/code_generator/src/*"],
 			"@borger/rs": ["./borger/client/rs/pkg"],
 			"@borger/ts": ["./borger/client/ts/src"],
