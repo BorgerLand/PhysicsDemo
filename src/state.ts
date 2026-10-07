@@ -27,7 +27,7 @@ codeGenerator()
 						//listed here. input.rs must be updated accordingly
 
 						//the camera's target spherical coordinate
-						cam_yaw: { netVisibility: "owner", type: "f32" }, //horizontal,
+						cam_yaw: { netVisibility: "owner", type: "f32" }, //horizontal
 						cam_pitch: { netVisibility: "owner", type: "f32" }, //vertical
 
 						//omnidirectional movement - 2D analog stick
