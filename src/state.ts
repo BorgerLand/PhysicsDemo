@@ -5,7 +5,7 @@ import { rapier } from "@borger/rapier";
 codeGenerator()
 	.plugin(rapier)
 	.flatulate({
-		physics: { netVisibility: "untracked", type: "crate::plugins::physics::Physics" },
+		physics: { netVisibility: "untracked", type: "Rapier" },
 		clients: {
 			netVisibility: "public",
 			presentation: "clone",
@@ -78,7 +78,7 @@ function rigidBody(typeName: string) {
 			time_since_can_sleep: { netVisibility: "public", type: "f32" },
 			rb_handle: {
 				netVisibility: "untracked",
-				type: "rapier3d::prelude::RigidBodyHandle",
+				type: "::borger_rapier::rapier3d::prelude::RigidBodyHandle",
 			},
 		},
 	} as const;

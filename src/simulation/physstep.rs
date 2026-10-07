@@ -1,6 +1,7 @@
+use crate::SIM_DT;
+use crate::rapier3d::prelude::Group;
 use borger::prelude::*;
 use glam::Vec3;
-use rapier3d::prelude::Group;
 
 pub const GRAVITY: Vec3 = Vec3::new(0.0, -30.0, 0.0);
 pub const GROUP_CHARACTER: Group = Group::GROUP_1;
@@ -18,7 +19,7 @@ pub fn update(ctx: &mut GameContext<Immediate>) {
 		}
 	}
 
-	if start_physics_test {
+	if start_physics_test && !ctx.state.get_running_physics_test() {
 		ctx.state.set_running_physics_test(true, &mut ctx.diff);
 		for (_, rb) in ctx.state.physics.rigid_bodies.iter_mut() {
 			rb.wake_up(true);
@@ -26,6 +27,7 @@ pub fn update(ctx: &mut GameContext<Immediate>) {
 	}
 
 	let gravity = if ctx.state.get_running_physics_test() {
+		ctx.state.physics.integration_parameters.dt = SIM_DT;
 		GRAVITY
 	} else {
 		Vec3::ZERO

@@ -1,9 +1,10 @@
+use crate::SIM_DT;
 use crate::physstep::{GRAVITY, GROUP_CHARACTER, GROUP_PUSHABLE};
+use crate::rapier3d::control::{CharacterLength, KinematicCharacterController};
+use crate::rapier3d::parry::shape::Capsule;
+use crate::rapier3d::prelude::*;
 use borger::prelude::*;
 use glam::{Quat, Vec3};
-use rapier3d::control::{CharacterLength, KinematicCharacterController};
-use rapier3d::parry::shape::Capsule;
-use rapier3d::prelude::*;
 
 const RADIUS: f32 = 0.35;
 const HEIGHT: f32 = 2.9;
@@ -102,13 +103,13 @@ pub fn update_post_physstep(ctx: &mut GameContext<impl ImmediateOrWaitForServer>
 			desired_translation += right * input.omnidir.x; //left/right
 			desired_translation += forward * input.omnidir.y; //forward/backward
 			desired_translation *= SPEED;
-			desired_translation += velocity + 0.5 * GRAVITY * TickInfo::SIM_DT;
-			desired_translation *= TickInfo::SIM_DT;
+			desired_translation += velocity + 0.5 * GRAVITY * SIM_DT;
+			desired_translation *= SIM_DT;
 
 			let center_pos = character.get_pos();
 			let phys = &ctx.state.physics;
 			let result = controller.move_shape(
-				TickInfo::SIM_DT,
+				SIM_DT,
 				&phys.query(QueryFilter::default().groups(InteractionGroups::new(
 					Group::ALL,                   //should always be all in a query
 					Group::ALL ^ GROUP_CHARACTER, //i collide with anything except characters
@@ -124,7 +125,7 @@ pub fn update_post_physstep(ctx: &mut GameContext<impl ImmediateOrWaitForServer>
 			if result.grounded || hit_head {
 				velocity = Vec3::ZERO
 			} else {
-				velocity += GRAVITY * TickInfo::SIM_DT;
+				velocity += GRAVITY * SIM_DT;
 				velocity = velocity.clamp_length_max(TERMINAL_VELOCITY);
 			};
 

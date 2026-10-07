@@ -1,6 +1,6 @@
 use crate::physstep::GROUP_PUSHABLE;
+use crate::rapier3d::prelude::*;
 use borger::prelude::*;
-use rapier3d::prelude::*;
 
 const PHYSICS_CUBE_SIZE: f32 = 1.0;
 const PHYSICS_SPHERE_RADIUS: f32 = 0.5;

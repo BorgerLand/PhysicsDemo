@@ -1,3 +1,4 @@
+use borger::plugins::borger_rapier::rapier3d;
 use borger::prelude::*;
 use glam::Quat;
 use rapier3d::prelude::*;
