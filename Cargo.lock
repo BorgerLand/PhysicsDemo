@@ -296,7 +296,6 @@ dependencies = [
  "borger_plugin_sdk",
  "console_log",
  "game",
- "glam",
  "js-sys",
  "log",
  "postcard",

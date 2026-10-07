@@ -8,8 +8,13 @@ edition.workspace = true
 [lib]
 path = "src/simulation/lib.rs"
 
+[workspace.dependencies]
+log = { version = "*", default-features = false }
+glam = { version = "*", default-features = false, features = ["libm", "f64"] }
+
 [dependencies]
 borger = { path = "borger/engine" }
+
 log.workspace = true
 glam.workspace = true
 
@@ -62,8 +67,4 @@ members = [
 [workspace.package]
 version = "0.0.0"
 edition = "2024"
-
-[workspace.dependencies]
-log = { version = "*", default-features = false }
-glam = { version = "*", default-features = false, features = ["std", "f64"] }
 
