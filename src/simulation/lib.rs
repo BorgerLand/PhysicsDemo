@@ -7,8 +7,12 @@ pub mod input;
 pub mod physics_demo;
 pub mod physstep;
 
+//simulation delta time/tick rate, in seconds/tick (30hz)
+pub const SIM_DT: f32 = 1.0 / 30.0;
+
 pub fn init() -> SimulationInitOptions {
 	SimulationInitOptions {
+		sim_dt: SIM_DT,
 		init_static_level_geom: Some(|state: &mut State| {
 			state.physics.init_static_level_geom(
 				ColliderBuilder::cuboid(100.0, 25.0, 100.0)

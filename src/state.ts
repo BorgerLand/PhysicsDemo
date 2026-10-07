@@ -1,9 +1,9 @@
 import { codeGenerator } from "@borger/code_generator";
-import { eventDispatcher } from "@borger/event_dispatcher";
+import { rapier } from "@borger/rapier";
 
 //make sure field names are snake_case or else you will anger rustc
 codeGenerator()
-	.plugin(eventDispatcher)
+	.plugin(rapier)
 	.flatulate({
 		physics: { netVisibility: "untracked", type: "crate::plugins::physics::Physics" },
 		clients: {

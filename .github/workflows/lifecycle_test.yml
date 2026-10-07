@@ -342,6 +342,12 @@ jobs:
               run: |
                   npx eslint --flag unstable_native_nodejs_ts_config
 
+            - name: "Existing game: rustfmt"
+              working-directory: lifecycle_test_existing
+              run: |
+                  rustup component add rustfmt
+                  git ls-files -z '*.rs' | xargs -0 rustfmt --check
+
             - name: "Existing game: borger release"
               working-directory: lifecycle_test_existing
               run: |
