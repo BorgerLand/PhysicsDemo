@@ -1,6 +1,7 @@
 {
 	"dependencies": {
 		"@borger/event_dispatcher": "file:borger/plugins/event_dispatcher",
+		"@borger/rapier": "file:borger/plugins/rapier",
 		"react": "*",
 		"react-dom": "*",
 		"zustand": "*"

@@ -40,12 +40,7 @@ pub fn validate(_sus: &Input) -> Input {
 //npc) are normally safe to predict false or else you risk
 //triggering some action twice
 #[server]
-pub fn server_predict_late(
-	_prv: &Input,
-	_state: &State,
-	_client_id: usize32,
-	_is_timed_out: bool,
-) -> Input {
+pub fn server_predict_late(_prv: &Input, _state: &State, _client_id: usize32, _is_timed_out: bool) -> Input {
 	Input {}
 }
 

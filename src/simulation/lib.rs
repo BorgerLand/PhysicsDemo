@@ -2,8 +2,12 @@ use borger::prelude::*;
 
 pub mod input;
 
+//simulation delta time/tick rate, in seconds/tick (30hz)
+pub const SIM_DT: f32 = 1.0 / 30.0;
+
 pub fn init() -> SimulationInitOptions {
 	SimulationInitOptions {
+		sim_dt: SIM_DT,
 		init_static_level_geom: None,
 		simulation_loop,
 		input_merge: input::merge,

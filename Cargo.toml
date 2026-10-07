@@ -12,7 +12,6 @@ path = "src/simulation/lib.rs"
 borger = { path = "borger/engine" }
 log.workspace = true
 glam.workspace = true
-rapier3d.workspace = true
 
 
 
@@ -56,11 +55,8 @@ session_replay = []
 [workspace]
 resolver = "2"
 members = [
-	"borger/plugins/sdk/rs",
-	"borger/engine",
 	"borger/server",
 	"borger/client/rs",
-	"borger/procmac"
 ]
 
 [workspace.package]
@@ -69,5 +65,5 @@ edition = "2024"
 
 [workspace.dependencies]
 log = { version = "*", default-features = false }
-glam = { version = "*", default-features = false, features = ["std"] }
-rapier3d = { version = "*", default-features = false, features = ["simd-nightly", "dim3", "f32", "alloc"] }
+glam = { version = "*", default-features = false, features = ["std", "f64"] }
+
